@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-Router</title>
+</head>
+
+<body>
+    <a href="#home">home</a>
+    <a href="#about">about</a>
+    <div id="app"></div>
+
+    <a onclick="go('/home')">home</a>
+    <a onclick="go('/about')">about</a>
+</body>
+<script>
+    // 监听哈希的变化
+    window.addEventListener('hashchange', (e) => {
+        console.log(document.location.hash)
+
+    })
+    // 页面加载获取哈希
+    window.addEventListener('load', (e) => {
+        document.querySelector('#app').innerHTML = document.location.hash.split('#')[1]
+        console.log(document.location.hash)
+
+    })
+    // 添加路径
+    function go(url) {
+        history.pushState(null, null, url)
+    }
+    // 监听history模式下的前进后退
+    window.addEventListener('popstate', () => {
+        console.log(location.pathname)
+    })
+</script>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <pre>
+        CSRF
+        基本概念 跨站请求伪造 
+        缩写含义 cross-site request forgery
+        攻击方式 用户登录A网站并存储了cookie/session 等登录信息 这时候点击了b网站的某个诱导连接 就会带着浏览器存储的cookie/session去请求A网站的接口 从而造成是用户主动点击A网站的效果
+        举例：微博的关注接口，用户登录了微博后，B网站将关注某个微博账号的接口挂在了弹窗上，用户点击后就关注了 B网站接口设定参数的那个人  
+        防御措施：
+        1 token校验
+        2 referer校验
+        3 令牌校验
+        XSS
+        基本概念 脚本注入攻击
+        缩写含义 cross-site script
+        攻击方式 通过输入一些脚本，开发者没有进行处理直接插入html，导致页面执行非法注入的js代码
+        防御措施 接收渲染到页面上的内容要进行转义 并且要还
+    </pre>
+</body>
+
+</html>

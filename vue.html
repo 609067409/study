@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue</title>
+</head>
+
+<body>
+    <h3>mvvm什么意思</h3>
+    <pre>
+          m:model
+          v:view
+          vm:viewModel
+      </pre>
+    <h3>Vue2 响应式原理的理解</h3>
+    <pre>
+        1、在init数据初始化的时候，对象内部通过 defineReactive 方法，使用 Object.defineProperty 将属性进行劫持（这时候只会劫持已经存在的属性）。
+        如果数据是数组类型， Vue2中是通过重写数组方法来实现。多层对象是通过递归来实现劫持的。
+        2、在初始化流程中的编译阶段，当render function 被渲染的时候，会读取Vue实例中和视图相关的响应式数据，
+        此时会触发 getter 函数进行 依赖收集（将观察者Watcher对象存放到当前闭包的订阅者Dep的subs中），
+        此时的数据劫持功能和观察者模式就实现了一个MVVM模式中的Binder，之后就是正常的渲染和更新流程。
+        3、当数据发生变化或者视图导致的数据发生变化时，会触发数据劫持的setter函数，setter会通知初始化依赖收集中的Dep中和视图相应的 Watcher ，
+        告知需要重新渲染视图，Watcher 就会再次通过 update 方法来更新视图。
+
+        vm = new Vue({option}) 
+        this.init()
+        defindReactive(){
+            Object.defindProperty(data)
+        }
+    </pre>
+    <h3>脚手架代理设置</h3>
+    <pre>
+        module.exports = {
+            outputDir: 'dist',  //build输出目录
+            assetsDir: 'assets', //静态资源目录（js, css, img）
+            lintOnSave: false, //是否开启eslint
+            devServer: {
+                open: true, //是否自动弹出浏览器页面
+                host: "localhost", //表示启动的时候使用的域名，默认可以不写，则是使用localhost和本机IP
+                port: '8081', // 设置端口号
+                https: false,  //是否使用https协议
+                hotOnly: false, //是否开启热更新
+                proxy: {
+                    '/api': {
+                      target: 'http://yd.msword.top', //API服务器的地址
+                      ws: true, //代理websockets
+                      changeOrigin: true, // 是否跨域，虚拟的站点需要更管origin
+                      pathRewrite: {
+                        // '^/api5'是一个正则表达式，表示要匹配请求的url中，全部'http://localhost:8081/api5' 转接为 http://localhost:8081/api/
+                        '^/api5': '/api',
+                        //重写路径 比如'/api/aaa/ccc'重写为'/aaa/ccc'
+                        '^/api': '',
+                      }
+                    },
+                    '/foo': {
+                        target: 'http://yd.abc.top'
+                    }
+                },
+            }
+        }
+    </pre>
+    <hr />
+    <h3>vue-router</h3>
+    <pre>
+        是vue团队提供的一个 插件 ，每一个路由都指向一个组件
+    </pre>
+    <h3>数据双向绑定</h3>
+    <pre>
+
+    </pre>
+</body>
+
+</html>

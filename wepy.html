@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wepy使用注意事项</title>
+</head>
+
+<body>
+    <pre>
+        1.数据赋值使用 this.name = '陈振宇'
+        2.事件绑定使用 @tap.stop="commit()"  @tap="selectImage({{ index }})" bind:change="onChange"  bind:tap="onClickShow"
+        3.属性参数绑定 right-width="{{ 60 }}" value="{{ 1 }}"
+        4.是否显示 wx:if="{{showDialog}}"
+        5.遍历  <repeat for="{{ images }}" index="index" item="item"></repeat>
+        5.引入插件或者改标题
+        config = {
+            navigationBarTitleText: '配件报价单',
+            usingComponents: {
+              'van-cell': '../../components/vant/cell/index',
+            }
+          };
+        6.基本框架
+        export default class Index extends wepy.page {
+            config = {
+              navigationBarTitleText: '配件报价单',
+              usingComponents: {
+                'van-stepper': '../../components/vant/stepper/index'
+              }
+            };
+          
+            mixins = [eventMixins];
+          
+            data = {
+              
+              showDialog: false
+            };
+          
+            methods = {
+              onClickShow(e) {
+                console.log('111');
+                this.showDialog = true;
+              },
+              onClickHide() {
+                console.log('22');
+                //   this.setData({ show: false });
+              }
+            };
+            onLoad(option) {}
+          }
+    </pre>
+</body>
+
+</html>

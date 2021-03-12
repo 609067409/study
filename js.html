@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>js积累</title>
+</head>
+
+<body>
+    <h3>寄生式组合继承的实现</h3>
+    <pre>
+    function Person(name) {
+        this.name = name;
+    }
+
+    Person.prototype.sayName = function() {
+        console.log("My name is " + this.name + ".");
+    };
+
+    function Student(name, grade) {
+        Person.call(this, name);
+        this.grade = grade;
+    }
+
+    Student.prototype = Object.create(Person.prototype);
+    Student.prototype.constructor = Student;
+
+    Student.prototype.sayMyGrade = function() {
+    console.log("My grade is " + this.grade + ".");
+    };
+</pre>
+    <h1>
+        new 操作符具体干了什么呢？如何实现？
+    </h1>
+    <pre>
+        1、创建一个空对象
+        2、将空对象的原型指向构造函数的prototype
+        3、将构造函数的this指向空对象，执行构造函数，为空对象添加属性
+        4、返回这个对象
+    </pre>
+    <!-- js普通数据类型再创建的时候由系统创建 -->
+    <h3>实现数组转树</h3>
+    <pre>
+     const list = [
+       { id: 1, name: "松山学院", pid: null },
+       { id: 2, name: "计算机系", pid: 1 },
+       { id: 3, name: "电气系", pid: 1 },
+       { id: 4, name: "软件一班", pid: 2 },
+       { id: 5, name: "韶关学院", pid: null },
+       { id: 6, name: "czy", pid: 4 },
+       { id: 7, name: "计算机", pid: 5 },
+       { id: 8, name: "音乐", pid: 5 },
+       { id: 9, name: "ccy", pid: 7 },
+     ];
+     const result = [
+       {
+         id: 1,
+         name: "松山学院",
+         children: [
+           {
+             id: 2,
+             name: "计算机系",
+             children: [
+               {
+                 id: 4,
+                 name: "软件一班",
+                 children: [{ id: 6, name: "czy", children: [] }],
+               },
+             ],
+           },
+           { id: 3, name: "电气系", children: [] },
+         ],
+       },
+       {
+         id: 5,
+         name: "韶关学院",
+         children: [
+           {
+             id: 7,
+             name: "计算机系",
+             children: [{ id: 9, name: "ccy", children: [] }],
+           },
+           { id: 8, name: "音乐系", children: [] },
+         ],
+       },
+     ];
+     function getTree(list, pid) {
+       let arr = [];
+       list.forEach((element) => {
+         if (element.pid === pid) {
+           let obj = {
+             id: element.id,md
+             name: element.name,
+             children: getTree(list, element.id),
+           };
+           arr.push(obj);
+         }
+       });
+       return arr;
+     }
+     console.log(getTree(list, null));
+    </pre>
+    <h3>冒泡排序</h3>
+    <pre>
+        var arr = [9, 3, 7, 2, 1, 4, 5, 0, 6, 8, 99, 77, 88];
+        for (let i = 0; i < arr.length; i++) {
+          for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] > arr[j]) [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+        }
+        console.log(arr);
+    </pre>
+    <h3>数组去重</h3>
+    <pre>
+         [...new Set([1,1,1,2,2,2,3,3,3,3,4,4,4])]
+    </pre>
+    <h3>获取url上的参数</h3>
+    <pre>
+        function getParams(key) {
+            var result = {};
+            var paramStr = encodeURI(location.search);
+            if (paramStr) {
+                paramStr = paramStr.substring(1);
+                var params = paramStr.split('&');
+                for (var p = 0; p < params.length; p++) {
+                    result[params[p].split('=')[0]] = unescape(params[p].split('=')[1]);
+                }
+            }
+            return result[key];
+        }
+    </pre>
+
+    <hr />
+    <h3>滚动到页面顶部</h3>
+    <pre>
+        const scrollToTop = () => {     
+            const c = document.documentElement.scrollTop || document.body.scrollTop;     
+            if (c > 0) {         
+                window.requestAnimationFrame(scrollToTop);         
+                window.scrollTo(0, c - c / 8);     
+            } 
+        }; 
+        
+        // Example 
+        scrollToTop();
+        
+    </pre>
+
+    <hr />
+    <h3>获取当前页面的滚动位置</h3>
+    <pre>
+        const getScrollPosition = (el = window) => ({ 
+            x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft, 
+            y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop 
+        }); 
+        
+        // Example 
+        getScrollPosition(); // {x: 0, y: 200}
+    </pre>
+    <hr />
+    <h3>事件冒泡与事件捕获</h3>
+    <pre>
+         1、事件冒泡会从子到父，dom.addEventListener('event',function(){},false)
+         2、事件捕获会从父到子，dom.addEventListener('event',function(){},true)
+         3、浏览器更喜欢事件捕获，如果有捕获和冒泡先执行捕获再执行冒泡
+         4、阻止事件冒泡或者捕获 用e.stopPropagation()
+    </pre>
+    <!-- <div class="parent" style="width:100px;height:100px;">
+        父亲
+        <div class="child">儿子
+            <p class="p">ppp</p>
+        </div>
+    </div> -->
+</body>
+<script>
+    // let parent = document.querySelector('.parent')
+    // let child = document.querySelector('.child')
+    // let p = document.querySelector('.p')
+    // parent.addEventListener('click', function (e) {
+    //     e.stopPropagation()
+    //     console.log('parent')
+
+    // }, true)
+    // child.addEventListener('click', function (e) {
+
+    //     console.log('child')
+
+    // }, false)
+    // p.addEventListener('click', function (e) {
+    //     console.log('p')
+    // }, false)
+    // 闭包问题
+    /*
+    function fun(n, o) {
+        console.log(o)
+        return {
+            fun: function (m) {
+                console.log(this)
+                return fun(m, n);
+            }
+        };
+    }
+
+    var a = fun(0); a.fun(1); a.fun(2); a.fun(3);//undefined,?,?,?
+    var b = fun(0).fun(1).fun(2).fun(3);//undefined,?,?,?
+    var c = fun(0).fun(1); c.fun(2); c.fun(3);//undefined,?,?,? */
+
+    function Foo() {
+        getName = function () {
+            alert(1);
+        };
+        return this;
+    }
+    Foo.getName = function () {
+        alert(2);
+    };
+    Foo.prototype.getName = function () {
+        alert(3);
+    };
+    var getName = function () {
+        alert(4);
+    };
+    function getName() {
+        alert(5);
+    }
+
+    //请写出以下输出结果：
+    Foo.getName(); // 2
+    getName(); // 4
+    Foo().getName(); // 3
+    getName(); // 4
+    new Foo.getName(); // 1
+    new Foo().getName(); // 3
+    new new Foo().getName(); // 3
+</script>
+
+</html>
